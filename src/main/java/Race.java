@@ -2,27 +2,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Race {
-    protected final ArrayList<Car> cars;
-    protected ArrayList<Car> winners;
-    protected int maxDistance = 0;
+    protected ArrayList<Car> winners = new ArrayList<Car>();
+    protected int maxDistance;
 
-    public Race(ArrayList<Car> cars){
-        this.cars = cars;
+    public Race() {
+        this.maxDistance = 0;
+        this.winners.add(new Car("noname", 0));
     }
 
-    protected void setMaxDistance(int distance){
-        if (distance > this.maxDistance) this.maxDistance = distance;
+    public void stint(Car racer) {
+        if (racer.distance > this.maxDistance) {
+            this.maxDistance = racer.distance;
+            ;
+            this.winners.clear();
+            this.winners.add(racer);
+        } else if (racer.distance == this.maxDistance) {
+            this.winners.add(racer);
+        }
     }
 
-    public ArrayList<Car> getWinners(){
-        for (int i = 0; i < this.cars.size(); i++){
-            setMaxDistance(cars.get(i).getDistance());
-        }
-        winners = cars;
-        Iterator<Car> iter = winners.iterator();
-        while (iter.hasNext()){
-            if (iter.next().getDistance() < this.maxDistance) iter.remove();
-        }
+    public ArrayList<Car> getWinners() {
         return this.winners;
     }
 }
